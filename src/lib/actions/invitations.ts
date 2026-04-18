@@ -1,5 +1,6 @@
 'use server'
 import { db as supabase } from '@/lib/supabase-server'
+import { syncToSheets } from '@/lib/sheets-sync'
 import type { Invitation } from '@/lib/types'
 
 export async function listInvitations(filters?: {
@@ -33,16 +34,19 @@ export async function listInvitations(filters?: {
 export async function createInvitation(data: Omit<Invitation, 'id' | 'created_at' | 'updated_at'>) {
   const { data: row, error } = await supabase.from('invitations').insert(data).select().single()
   if (error) throw error
+  syncToSheets('invitations', 'create', row)
   return row as Invitation
 }
 
 export async function updateInvitation(id: string, data: Partial<Invitation>) {
   const { data: row, error } = await supabase.from('invitations').update(data).eq('id', id).select().single()
   if (error) throw error
+  syncToSheets('invitations', 'update', row)
   return row as Invitation
 }
 
 export async function deleteInvitation(id: string) {
   const { error } = await supabase.from('invitations').delete().eq('id', id)
   if (error) throw error
+  syncToSheets('invitations', 'delete', { id })
 }

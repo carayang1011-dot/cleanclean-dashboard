@@ -1,5 +1,6 @@
 'use server'
 import { db as supabase } from '@/lib/supabase-server'
+import { syncToSheets } from '@/lib/sheets-sync'
 import type { Project } from '@/lib/types'
 
 export async function listProjects(filters?: {
@@ -23,16 +24,19 @@ export async function listProjects(filters?: {
 export async function createProject(data: Omit<Project, 'id' | 'created_at' | 'updated_at'>) {
   const { data: row, error } = await supabase.from('projects').insert(data).select().single()
   if (error) throw error
+  syncToSheets('projects', 'create', row)
   return row as Project
 }
 
 export async function updateProject(id: string, data: Partial<Project>) {
   const { data: row, error } = await supabase.from('projects').update(data).eq('id', id).select().single()
   if (error) throw error
+  syncToSheets('projects', 'update', row)
   return row as Project
 }
 
 export async function deleteProject(id: string) {
   const { error } = await supabase.from('projects').delete().eq('id', id)
   if (error) throw error
+  syncToSheets('projects', 'delete', { id })
 }

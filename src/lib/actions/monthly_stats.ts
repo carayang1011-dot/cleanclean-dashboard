@@ -1,5 +1,6 @@
 'use server'
 import { db as supabase } from '@/lib/supabase-server'
+import { syncToSheets } from '@/lib/sheets-sync'
 import type { MonthlyStat } from '@/lib/types'
 
 export async function listMonthlyStats() {
@@ -15,5 +16,6 @@ export async function upsertMonthlyStat(month: number, data: Partial<MonthlyStat
     .select()
     .single()
   if (error) throw error
+  syncToSheets('monthly_stats', 'update', row)
   return row as MonthlyStat
 }

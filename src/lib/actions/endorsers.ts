@@ -1,5 +1,6 @@
 'use server'
 import { db as supabase } from '@/lib/supabase-server'
+import { syncToSheets } from '@/lib/sheets-sync'
 import type { Endorser } from '@/lib/types'
 
 export async function listEndorsers() {
@@ -11,16 +12,19 @@ export async function listEndorsers() {
 export async function createEndorser(data: Omit<Endorser, 'id' | 'created_at' | 'updated_at'>) {
   const { data: row, error } = await supabase.from('endorsers').insert(data).select().single()
   if (error) throw error
+  syncToSheets('endorsers', 'create', row)
   return row as Endorser
 }
 
 export async function updateEndorser(id: string, data: Partial<Endorser>) {
   const { data: row, error } = await supabase.from('endorsers').update(data).eq('id', id).select().single()
   if (error) throw error
+  syncToSheets('endorsers', 'update', row)
   return row as Endorser
 }
 
 export async function deleteEndorser(id: string) {
   const { error } = await supabase.from('endorsers').delete().eq('id', id)
   if (error) throw error
+  syncToSheets('endorsers', 'delete', { id })
 }
