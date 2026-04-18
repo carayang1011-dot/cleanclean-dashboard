@@ -1,0 +1,62 @@
+[
+  {
+    "month": 1,
+    "big_host_actual": 2,
+    "big_host_target": 3,
+    "small_host_actual": 15,
+    "small_host_target": 3,
+    "month_achieved": true,
+    "updated_at": "2026-04-18T19:34:43.323Z",
+    "updated_by": null
+  },
+  {
+    "month": 2,
+    "big_host_actual": 1,
+    "big_host_target": 3,
+    "small_host_actual": 6,
+    "small_host_target": 3,
+    "month_achieved": false,
+    "updated_at": "2026-04-18T19:34:43.323Z",
+    "updated_by": null
+  },
+  {
+    "month": 3,
+    "big_host_actual": null,
+    "big_host_target": 3,
+    "small_host_actual": 8,
+    "small_host_target": 3,
+    "month_achieved": false,
+    "updated_at": "2026-04-18T19:34:43.323Z",
+    "updated_by": null
+  },
+  {
+    "month": 4,
+    "big_host_actual": null,
+    "big_host_target": 3,
+    "small_host_actual": null,
+    "small_host_target": 3,
+    "month_achieved": false,
+    "updated_at": "2026-04-18T19:34:43.323Z",
+    "updated_by": null
+  },
+  {
+    "month": 5,
+    "big_host_actual": null,
+    "big_host_target": 3,
+    "small_host_actual": null,
+    "small_host_target": 3,
+    "month_achieved": false,
+    "updated_at": "2026-04-18T19:34:43.323Z",
+    "updated_by": null
+  },
+  {
+    "month": 6,
+    "big_host_actual": null,
+    "big_host_target": 3,
+    "small_host_actual": null,
+    "small_host_target": 3,
+    "month_achieved": false,
+    "updated_at": "2026-04-18T19:34:43.323Z",
+    "updated_by": null
+  }
+]

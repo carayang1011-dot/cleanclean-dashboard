@@ -18,8 +18,12 @@
       "PowerShell(Copy-Item *)",
       "PowerShell(Move-Item *)",
       "PowerShell(Test-Path *)",
-      "PowerShell(mkdir *)"
+      "PowerShell(mkdir *)",
+      "PowerShell(Start-Sleep *)",
+      "PowerShell(Get-Content *)",
+      "PowerShell(Write-Output *)",
+      "PowerShell(echo *)"
     ],
-    "defaultMode": "acceptEdits"
+    "defaultMode": "bypassPermissions"
   }
 }

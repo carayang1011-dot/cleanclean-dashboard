@@ -1,0 +1,72 @@
+[
+  {
+    "id": "20abaa8b-2683-4e8d-9d11-c2b167f4b1d7",
+    "created_at": "2026-04-18T19:34:43.323Z",
+    "updated_at": "2026-04-18T19:34:43.323Z",
+    "name": "好味小姐",
+    "type": "置入合作",
+    "status": "執行中",
+    "stage": "洽談中",
+    "next_step": "確認合作條件",
+    "owner": "Cara",
+    "start_date": "2026-05-05",
+    "end_date": "2026-05-05",
+    "updated_by": null
+  },
+  {
+    "id": "efa946a2-1d65-4c83-99d3-261df1a4f10a",
+    "created_at": "2026-04-18T19:34:43.323Z",
+    "updated_at": "2026-04-18T19:34:43.323Z",
+    "name": "DAI廣告",
+    "type": "DAI廣告",
+    "status": "待處理",
+    "stage": "洽談中",
+    "next_step": "文案／素材準備",
+    "owner": "Cara",
+    "start_date": "2026-04-01",
+    "end_date": "2026-04-14",
+    "updated_by": null
+  },
+  {
+    "id": "8950c09e-025d-45c8-a4b8-c3f2091057c5",
+    "created_at": "2026-04-18T19:34:43.323Z",
+    "updated_at": "2026-04-18T19:34:43.323Z",
+    "name": "吳淡如",
+    "type": "專訪合作",
+    "status": "待處理",
+    "stage": "洽談中",
+    "next_step": "確認檔期",
+    "owner": "Cara",
+    "start_date": null,
+    "end_date": null,
+    "updated_by": null
+  },
+  {
+    "id": "989e9e69-f695-4691-8c73-38a74da937b0",
+    "created_at": "2026-04-18T19:34:43.323Z",
+    "updated_at": "2026-04-18T19:34:43.323Z",
+    "name": "吳淡如",
+    "type": "置入合作",
+    "status": "待處理",
+    "stage": null,
+    "next_step": null,
+    "owner": null,
+    "start_date": null,
+    "end_date": null,
+    "updated_by": null
+  },
+  {
+    "id": "e27d20a3-11be-4908-ab41-591b65da0d10",
+    "created_at": "2026-04-18T19:34:43.323Z",
+    "updated_at": "2026-04-18T19:34:43.323Z",
+    "name": "業問",
+    "type": "置入合作",
+    "status": "待處理",
+    "stage": null,
+    "next_step": null,
+    "owner": null,
+    "start_date": null,
+    "end_date": null,
+    "updated_by": null
+  }
+]
