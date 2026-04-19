@@ -28,9 +28,10 @@ interface Props {
   onOpenChange: (open: boolean) => void
   project?: Project | null
   onSave: (data: FormData) => Promise<void>
+  entityName?: string
 }
 
-export function ProjectDialog({ open, onOpenChange, project, onSave }: Props) {
+export function ProjectDialog({ open, onOpenChange, project, onSave, entityName = '專案' }: Props) {
   const { register, handleSubmit, reset, setValue, watch, formState: { errors, isSubmitting } } = useForm<FormData>({
     resolver: zodResolver(schema),
   })
@@ -61,7 +62,7 @@ export function ProjectDialog({ open, onOpenChange, project, onSave }: Props) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-lg rounded-2xl">
         <DialogHeader>
-          <DialogTitle>{project ? '編輯專案' : '新增專案'}</DialogTitle>
+          <DialogTitle>{project ? `編輯${entityName}` : `新增${entityName}`}</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
           <div>

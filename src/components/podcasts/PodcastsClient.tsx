@@ -99,7 +99,7 @@ export function PodcastsClient() {
           </TableBody>
         </Table>
       </div>
-      <ProjectDialog open={dialogOpen} onOpenChange={setDialogOpen} project={editTarget as unknown as any} onSave={handleSave as unknown as any} />
+      <ProjectDialog open={dialogOpen} onOpenChange={setDialogOpen} project={editTarget as unknown as any} onSave={handleSave as unknown as any} entityName="Podcast" />
       <ConfirmDialog open={!!deleteTarget} onOpenChange={o => !o && setDeleteTarget(null)}
         title="刪除 Podcast" description={`確定要刪除「${deleteTarget?.name}」？`}
         onConfirm={handleDelete} loading={deleting} />
