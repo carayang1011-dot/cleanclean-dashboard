@@ -127,7 +127,7 @@ export type Dimension = {
   rate: string
 }
 
-export const OPERATORS = ['Cara', 'Yun', '阿芸', '圓圓', '戴戴', 'Tilly', 'BOSS'] as const
+export const OPERATORS = ['Cara', 'Yun'] as const
 export type Operator = typeof OPERATORS[number]
 
 export const KOL_LEVELS = ['核心型', '入門級', '業配', 'Podcast'] as const
