@@ -16,8 +16,8 @@ export function OperatorSelector() {
   const { operator, setOperator } = useOperator()
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger className="inline-flex items-center gap-1 rounded-xl border border-brand/30 text-brand bg-background px-3 py-1.5 text-sm font-medium hover:bg-brand/5 transition-colors">
+    <DropdownMenu modal={false}>
+      <DropdownMenuTrigger type="button" className="inline-flex items-center gap-1 rounded-xl border border-brand/30 text-brand bg-background px-3 py-1.5 text-sm font-medium hover:bg-brand/5 transition-colors">
         <User size={14} />
         {operator ?? '選擇操作者'}
         <ChevronDown size={12} />
