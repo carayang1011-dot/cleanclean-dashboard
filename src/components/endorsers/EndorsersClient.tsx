@@ -74,7 +74,7 @@ export function EndorsersClient() {
     <div className="space-y-4">
       <div className="flex justify-end">
         <Button size="sm" className="rounded-xl bg-brand hover:bg-brand-dark gap-1"
-          onClick={() => openEdit(null)} disabled={!operator}>
+          onClick={() => openEdit(null)}>
           <Plus size={14} /> 新增代言人
         </Button>
       </div>
@@ -96,7 +96,7 @@ export function EndorsersClient() {
                 <TableRow key={i}>{Array.from({ length: 6 }).map((_, j) => <TableCell key={j}><Skeleton className="h-4 w-full" /></TableCell>)}</TableRow>
               ))
             ) : data.length === 0 ? (
-              <TableRow><TableCell colSpan={6} className="h-32"><EmptyState onAdd={operator ? () => openEdit(null) : undefined} /></TableCell></TableRow>
+              <TableRow><TableCell colSpan={6} className="h-32"><EmptyState onAdd={() => openEdit(null)} /></TableCell></TableRow>
             ) : data.map(row => (
               <TableRow key={row.id} className="cursor-pointer hover:bg-gray-50" onClick={() => openEdit(row)}>
                 <TableCell className="font-medium text-sm">{row.name}</TableCell>
@@ -114,7 +114,7 @@ export function EndorsersClient() {
                 </TableCell>
                 <TableCell>
                   <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-red-400 hover:text-red-600 hover:bg-red-50"
-                    onClick={e => { e.stopPropagation(); setDeleteTarget(row) }} disabled={!operator}>
+                    onClick={e => { e.stopPropagation(); setDeleteTarget(row) }}>
                     <Trash2 size={13} />
                   </Button>
                 </TableCell>

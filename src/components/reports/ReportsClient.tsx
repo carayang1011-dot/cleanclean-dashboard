@@ -121,7 +121,7 @@ export function ReportsClient() {
           </TabsList>
         </Tabs>
         <Button size="sm" className="rounded-xl bg-brand hover:bg-brand-dark gap-1"
-          onClick={() => openEdit(null)} disabled={!operator}>
+          onClick={() => openEdit(null)}>
           <Plus size={14} /> 新增{KIND_LABELS[tab]}
         </Button>
       </div>
@@ -129,7 +129,7 @@ export function ReportsClient() {
       {loading ? (
         <div className="space-y-3">{Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-24 w-full rounded-2xl" />)}</div>
       ) : filtered.length === 0 ? (
-        <div className="bg-white rounded-2xl border p-8"><EmptyState onAdd={operator ? () => openEdit(null) : undefined} /></div>
+        <div className="bg-white rounded-2xl border p-8"><EmptyState onAdd={() => openEdit(null)} /></div>
       ) : (
         <div className="space-y-3">
           {filtered.map(r => (
@@ -164,9 +164,9 @@ export function ReportsClient() {
                       </Button>
                     )}
                     <Button variant="ghost" size="sm" className="h-7 px-2 rounded-xl text-xs text-brand"
-                      onClick={() => openEdit(r)} disabled={!operator}>編輯</Button>
+                      onClick={() => openEdit(r)}>編輯</Button>
                     <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-red-400 hover:text-red-600 hover:bg-red-50"
-                      onClick={() => setDeleteTarget(r)} disabled={!operator}>
+                      onClick={() => setDeleteTarget(r)}>
                       <Trash2 size={13} />
                     </Button>
                   </div>

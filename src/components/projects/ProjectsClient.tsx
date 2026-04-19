@@ -119,7 +119,7 @@ export function ProjectsClient() {
         <SF label="狀態" value={status} onChange={setStatus} opts={PROJECT_STATUSES as unknown as string[]} />
         <SF label="負責人" value={owner} onChange={setOwner} opts={INVITATION_OWNERS as unknown as string[]} />
         <Button size="sm" className="rounded-xl bg-brand hover:bg-brand-dark gap-1 ml-auto"
-          onClick={() => { setEditTarget(null); setDialogOpen(true) }} disabled={!operator}>
+          onClick={() => { setEditTarget(null); setDialogOpen(true) }}>
           <Plus size={14} /> 新增
         </Button>
       </div>
@@ -149,7 +149,7 @@ export function ProjectsClient() {
             </TableHeader>
             <TableBody>
               {filtered.length === 0 ? (
-                <TableRow><TableCell colSpan={8} className="h-32"><EmptyState onAdd={operator ? () => { setEditTarget(null); setDialogOpen(true) } : undefined} /></TableCell></TableRow>
+                <TableRow><TableCell colSpan={8} className="h-32"><EmptyState onAdd={() => { setEditTarget(null); setDialogOpen(true) }} /></TableCell></TableRow>
               ) : filtered.map(row => (
                 <TableRow key={row.id} className="cursor-pointer hover:bg-gray-50"
                   onClick={() => { setEditTarget(row); setDialogOpen(true) }}>
@@ -162,7 +162,7 @@ export function ProjectsClient() {
                   <TableCell className="text-xs text-muted-foreground max-w-48 truncate">{row.next_step ?? '—'}</TableCell>
                   <TableCell>
                     <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-red-400 hover:text-red-600 hover:bg-red-50"
-                      onClick={e => { e.stopPropagation(); setDeleteTarget(row) }} disabled={!operator}>
+                      onClick={e => { e.stopPropagation(); setDeleteTarget(row) }}>
                       <Trash2 size={13} />
                     </Button>
                   </TableCell>

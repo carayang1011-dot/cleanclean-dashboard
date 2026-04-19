@@ -150,7 +150,7 @@ export function KolsClient() {
           <SelectF label="狀態" value={status} onChange={setStatus} opts={KOL_STATUSES as unknown as string[]} />
           <SelectF label="接洽人員" value={contactOwner} onChange={setContactOwner} opts={INVITATION_OWNERS as unknown as string[]} />
           <SelectF label="月份" value={month} onChange={setMonth} opts={['1','2','3','4','5','6'].map(m => `${m}月`)} rawOpts={['1','2','3','4','5','6']} />
-          <Button size="sm" className="rounded-xl bg-brand hover:bg-brand-dark gap-1" onClick={() => { setEditTarget(null); setDialogOpen(true) }} disabled={!operator}>
+          <Button size="sm" className="rounded-xl bg-brand hover:bg-brand-dark gap-1" onClick={() => { setEditTarget(null); setDialogOpen(true) }}>
             <Plus size={14} /> 新增
           </Button>
         </div>
@@ -189,7 +189,7 @@ export function KolsClient() {
                 <TableRow key={i}>{Array.from({ length: 12 }).map((_, j) => <TableCell key={j}><Skeleton className="h-4 w-full" /></TableCell>)}</TableRow>
               ))
             ) : filtered.length === 0 ? (
-              <TableRow><TableCell colSpan={12} className="h-32"><EmptyState onAdd={operator ? () => { setEditTarget(null); setDialogOpen(true) } : undefined} /></TableCell></TableRow>
+              <TableRow><TableCell colSpan={12} className="h-32"><EmptyState onAdd={() => { setEditTarget(null); setDialogOpen(true) }} /></TableCell></TableRow>
             ) : filtered.map(row => (
               <TableRow key={row.id} className="cursor-pointer hover:bg-gray-50" onClick={() => { setEditTarget(row); setDialogOpen(true) }}>
                 <TableCell className="text-xs text-muted-foreground">{row.level ?? '—'}</TableCell>
@@ -205,7 +205,7 @@ export function KolsClient() {
                 <TableCell><OwnerBadge owner={row.contact_owner} /></TableCell>
                 <TableCell>
                   <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-red-400 hover:text-red-600 hover:bg-red-50"
-                    onClick={e => { e.stopPropagation(); setDeleteTarget(row) }} disabled={!operator}>
+                    onClick={e => { e.stopPropagation(); setDeleteTarget(row) }}>
                     <Trash2 size={13} />
                   </Button>
                 </TableCell>

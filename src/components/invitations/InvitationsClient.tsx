@@ -162,7 +162,6 @@ export function InvitationsClient() {
             size="sm"
             className="rounded-xl bg-brand hover:bg-brand-dark gap-1"
             onClick={() => { setEditTarget(null); setDialogOpen(true) }}
-            disabled={!operator}
           >
             <Plus size={14} /> 新增邀約
           </Button>
@@ -224,7 +223,7 @@ export function InvitationsClient() {
             ) : filtered.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={9} className="h-32">
-                  <EmptyState onAdd={operator ? () => { setEditTarget(null); setDialogOpen(true) } : undefined} />
+                  <EmptyState onAdd={() => { setEditTarget(null); setDialogOpen(true) }} />
                 </TableCell>
               </TableRow>
             ) : filtered.map(row => (
@@ -251,7 +250,6 @@ export function InvitationsClient() {
                     variant="ghost"
                     className="h-7 w-7 p-0 text-red-400 hover:text-red-600 hover:bg-red-50"
                     onClick={e => { e.stopPropagation(); setDeleteTarget(row) }}
-                    disabled={!operator}
                   >
                     <Trash2 size={13} />
                   </Button>
