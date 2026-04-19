@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { toast } from 'sonner'
-import { Search, Plus, ArrowUpDown, Trash2 } from 'lucide-react'
+import { Search, Plus, ArrowUpDown, Trash2, Copy, CheckSquare } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
@@ -42,6 +42,9 @@ export function KolsClient() {
   const [editTarget, setEditTarget] = useState<Kol | null>(null)
   const [deleteTarget, setDeleteTarget] = useState<Kol | null>(null)
   const [deleting, setDeleting] = useState(false)
+
+  // 全選 / 複製
+  const [selected, setSelected] = useState<Set<string>>(new Set())
 
   const fetchData = useCallback(async () => {
     setLoading(true)
@@ -92,11 +95,63 @@ export function KolsClient() {
     return rows
   }, [data, level, platform, status, contactOwner, month, search, sortKey, sortDir])
 
+  // 清掉不在 filtered 裡的選取
+  useEffect(() => {
+    setSelected(prev => {
+      const ids = new Set(filtered.map(r => r.id))
+      const next = new Set([...prev].filter(id => ids.has(id)))
+      return next.size === prev.size ? prev : next
+    })
+  }, [filtered])
+
   const summary = useMemo(() => ({
     revenue: filtered.reduce((s, r) => s + (r.revenue ?? 0), 0),
     orders: filtered.reduce((s, r) => s + (r.orders ?? 0), 0),
     aov: filtered.length ? filtered.reduce((s, r) => s + (r.aov ?? 0), 0) / filtered.filter(r => r.aov).length : 0,
   }), [filtered])
+
+  const allSelected = filtered.length > 0 && filtered.every(r => selected.has(r.id))
+
+  const toggleAll = () => {
+    if (allSelected) {
+      setSelected(new Set())
+    } else {
+      setSelected(new Set(filtered.map(r => r.id)))
+    }
+  }
+
+  const toggleRow = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation()
+    setSelected(prev => {
+      const next = new Set(prev)
+      next.has(id) ? next.delete(id) : next.add(id)
+      return next
+    })
+  }
+
+  const handleCopy = () => {
+    const rows = filtered.filter(r => selected.has(r.id))
+    const headers = ['名稱', '等級', '平台', '上線期間', '狀態', '訂單', '業績', '客單價', '抽成%', '抽成金額', '接洽人', '備註']
+    const lines = [
+      headers.join('\t'),
+      ...rows.map(r => [
+        r.name,
+        r.level ?? '',
+        r.platform ?? '',
+        formatDateRange(r.start_date, r.end_date),
+        r.status ?? '',
+        r.orders ?? '',
+        r.revenue ?? '',
+        r.aov ?? '',
+        r.commission_rate != null ? `${r.commission_rate}%` : '',
+        r.commission_amount ?? '',
+        r.contact_owner ?? '',
+        r.note ?? '',
+      ].join('\t'))
+    ]
+    navigator.clipboard.writeText(lines.join('\n'))
+    toast.success(`已複製 ${rows.length} 筆，可貼入 Excel`)
+  }
 
   const handleSave = async (formData: Partial<Kol>) => {
     const payload = { ...formData, updated_by: operator ?? '訪客' } as Omit<Kol, 'id' | 'created_at' | 'updated_at'>
@@ -155,12 +210,17 @@ export function KolsClient() {
           </Button>
         </div>
 
-        {/* 即時統計 */}
-        <div className="flex gap-4 text-sm">
+        {/* 即時統計 + 複製按鈕 */}
+        <div className="flex gap-4 text-sm items-center">
           <span className="text-muted-foreground">篩選 <strong className="text-foreground">{filtered.length}</strong> 筆</span>
           <span>總業績 <strong className="text-brand">{formatNTD(summary.revenue)}</strong></span>
           <span>總訂單 <strong>{summary.orders}</strong></span>
           <span>平均客單 <strong>{formatNTD(Math.round(summary.aov))}</strong></span>
+          {selected.size > 0 && (
+            <Button size="sm" variant="outline" className="rounded-xl gap-1 ml-auto text-xs h-7 border-brand text-brand hover:bg-brand/5" onClick={handleCopy}>
+              <Copy size={12} /> 複製 {selected.size} 筆
+            </Button>
+          )}
         </div>
       </div>
 
@@ -169,6 +229,16 @@ export function KolsClient() {
         <Table>
           <TableHeader>
             <TableRow className="bg-gray-50">
+              {/* 全選 checkbox */}
+              <TableHead className="w-10">
+                <input
+                  type="checkbox"
+                  checked={allSelected}
+                  onChange={toggleAll}
+                  className="rounded cursor-pointer accent-brand"
+                  title="全選"
+                />
+              </TableHead>
               <TableHead className="w-16">等級</TableHead>
               <SortHead label="名稱" k="name" />
               <TableHead>平台</TableHead>
@@ -186,12 +256,24 @@ export function KolsClient() {
           <TableBody>
             {loading ? (
               Array.from({ length: 6 }).map((_, i) => (
-                <TableRow key={i}>{Array.from({ length: 12 }).map((_, j) => <TableCell key={j}><Skeleton className="h-4 w-full" /></TableCell>)}</TableRow>
+                <TableRow key={i}>{Array.from({ length: 13 }).map((_, j) => <TableCell key={j}><Skeleton className="h-4 w-full" /></TableCell>)}</TableRow>
               ))
             ) : filtered.length === 0 ? (
-              <TableRow><TableCell colSpan={12} className="h-32"><EmptyState onAdd={() => { setEditTarget(null); setDialogOpen(true) }} /></TableCell></TableRow>
+              <TableRow><TableCell colSpan={13} className="h-32"><EmptyState onAdd={() => { setEditTarget(null); setDialogOpen(true) }} /></TableCell></TableRow>
             ) : filtered.map(row => (
-              <TableRow key={row.id} className="cursor-pointer hover:bg-gray-50" onClick={() => { setEditTarget(row); setDialogOpen(true) }}>
+              <TableRow
+                key={row.id}
+                className={`cursor-pointer hover:bg-gray-50 ${selected.has(row.id) ? 'bg-brand/5' : ''}`}
+                onClick={() => { setEditTarget(row); setDialogOpen(true) }}
+              >
+                <TableCell onClick={e => toggleRow(row.id, e)}>
+                  <input
+                    type="checkbox"
+                    checked={selected.has(row.id)}
+                    onChange={() => {}}
+                    className="rounded cursor-pointer accent-brand"
+                  />
+                </TableCell>
                 <TableCell className="text-xs text-muted-foreground">{row.level ?? '—'}</TableCell>
                 <TableCell className="font-medium text-sm">{row.name}</TableCell>
                 <TableCell className="text-xs text-muted-foreground">{row.platform ?? '—'}</TableCell>
