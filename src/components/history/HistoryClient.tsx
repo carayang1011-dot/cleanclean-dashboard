@@ -1,15 +1,13 @@
 'use client'
 
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { toast } from 'sonner'
 import { Search, ArrowUpDown, Copy } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { Skeleton } from '@/components/ui/skeleton'
 import { HistoryDetailModal } from './HistoryDetailModal'
-import { listHistory } from '@/lib/actions/history'
 import { formatNTD, formatDateRange } from '@/lib/format'
 import type { HistoryRecord } from '@/lib/types'
 import { HISTORY_COLLAB_TYPES, HISTORY_OWNERS, HISTORY_STATUSES, HISTORY_SYSTEMS, HISTORY_YEARS } from '@/lib/types'
@@ -18,9 +16,8 @@ const ALL = '全部'
 type SortKey = keyof HistoryRecord
 type SortDir = 'asc' | 'desc'
 
-export function HistoryClient() {
-  const [data, setData] = useState<HistoryRecord[]>([])
-  const [loading, setLoading] = useState(true)
+export function HistoryClient({ initialData }: { initialData: HistoryRecord[] }) {
+  const [data] = useState<HistoryRecord[]>(initialData)
   const [search, setSearch] = useState('')
   const [year, setYear] = useState(ALL)
   const [collabType, setCollabType] = useState(ALL)
@@ -34,20 +31,6 @@ export function HistoryClient() {
   const [selected, setSelected] = useState<Set<string>>(new Set())
   const [detailRecord, setDetailRecord] = useState<HistoryRecord | null>(null)
   const [modalOpen, setModalOpen] = useState(false)
-
-  const fetchData = useCallback(async () => {
-    setLoading(true)
-    try {
-      const rows = await listHistory()
-      setData(rows)
-    } catch {
-      toast.error('載入失敗')
-    } finally {
-      setLoading(false)
-    }
-  }, [])
-
-  useEffect(() => { fetchData() }, [fetchData])
 
   const handleSort = (key: SortKey) => {
     if (sortKey === key) setSortDir(d => d === 'asc' ? 'desc' : 'asc')
@@ -247,11 +230,7 @@ export function HistoryClient() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {loading ? (
-              Array.from({ length: 8 }).map((_, i) => (
-                <TableRow key={i}>{Array.from({ length: 15 }).map((_, j) => <TableCell key={j}><Skeleton className="h-4 w-full" /></TableCell>)}</TableRow>
-              ))
-            ) : filtered.length === 0 ? (
+            {filtered.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={15} className="h-32 text-center text-muted-foreground text-sm">
                   沒有符合條件的紀錄
