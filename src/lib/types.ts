@@ -127,6 +127,47 @@ export type Dimension = {
   rate: string
 }
 
+export type HistoryRecord = {
+  id: string
+  source: string | null
+  paid: string | null
+  collab_type: string | null
+  level: string | null
+  year: number | null
+  start_date: string | null
+  end_date: string | null
+  creator: string
+  platform: string | null
+  url: string | null
+  product: string | null
+  system: string | null
+  material: string | null
+  owner: string | null
+  status: string | null
+  discount: string | null
+  commission_rate: number | null
+  fee_pretax: number | null
+  fee_tax: number | null
+  orders: number | null
+  revenue: number | null
+  commission_amount: number | null
+  aov: number | null
+  ad_auth: string | null
+  note: string | null
+  shipping_info: string | null
+  transfer_info: string | null
+  transfer_amount: number | null
+  payment_date: string | null
+  tax_receipt: string | null
+  transfer_note: string | null
+}
+
+export const HISTORY_COLLAB_TYPES = ['團購分潤', '純業配'] as const
+export const HISTORY_OWNERS = ['Cara', 'Cara&阿芸', 'Peggy', 'Tilly', '媛媛', '戴戴', '跳跳', '阿芸', '默默'] as const
+export const HISTORY_STATUSES = ['已完成', '進行中', '廣告中', '結團中', '產品已寄出', '確認可合作', '表單已建置', '表單未建置', '邀約中', '審文｜審片中', '暫不合作'] as const
+export const HISTORY_SYSTEMS = ['官網', 'AMA', 'Shopline', '優惠代碼', '團購表單'] as const
+export const HISTORY_YEARS = [2023, 2024, 2025, 2026] as const
+
 export const OPERATORS = ['Cara', 'Yun'] as const
 export type Operator = typeof OPERATORS[number]
 

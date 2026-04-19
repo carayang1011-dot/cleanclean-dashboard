@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, Users, Briefcase, Mail, Mic, Star, FileText, Settings } from 'lucide-react'
+import { LayoutDashboard, Users, Briefcase, Mail, Mic, Star, FileText, Settings, History } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 const navItems = [
@@ -12,6 +12,7 @@ const navItems = [
   { href: '/invitations', label: '邀約名單', icon: Mail },
   { href: '/podcasts', label: 'Podcast', icon: Mic },
   { href: '/endorsers', label: '代言人', icon: Star },
+  { href: '/history', label: '歷史合作名單', icon: History },
   { href: '/reports', label: '週報 / 月報', icon: FileText },
   { href: '/settings', label: '設定', icon: Settings },
 ]
