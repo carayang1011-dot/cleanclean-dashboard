@@ -7,8 +7,8 @@ import { cn } from '@/lib/utils'
 
 const navItems = [
   { href: '/', label: '儀表板', icon: LayoutDashboard },
-  { href: '/kols', label: 'KOL / KOC', icon: Users },
-  { href: '/projects', label: '合作專案', icon: Briefcase },
+  { href: '/kols', label: '業績追蹤', icon: Users },
+  { href: '/projects', label: '合作排程', icon: Briefcase },
   { href: '/invitations', label: '邀約名單', icon: Mail },
   { href: '/podcasts', label: 'Podcast', icon: Mic },
   { href: '/endorsers', label: '代言人', icon: Star },
