@@ -18,11 +18,13 @@ export async function listKols(filters?: {
   if (filters?.status) query = query.eq('status', filters.status)
   if (filters?.contact_owner) query = query.eq('contact_owner', filters.contact_owner)
   if (filters?.month) {
-    const year = 2026
-    const m = filters.month.toString().padStart(2, '0')
+    const monthNum = Math.max(1, Math.min(12, filters.month))
+    const year = monthNum === 12 ? 2027 : 2026
+    const nextMonth = monthNum === 12 ? 1 : monthNum + 1
+    const pad = (n: number) => n.toString().padStart(2, '0')
     query = query
-      .gte('start_date', `${year}-${m}-01`)
-      .lt('start_date', `${year}-${m.padStart(2,'0')}-01`.replace(`-${m}-`, `-${(filters.month % 12 + 1).toString().padStart(2,'0')}-`))
+      .gte('start_date', `2026-${pad(monthNum)}-01`)
+      .lt('start_date', `${year}-${pad(nextMonth)}-01`)
   }
   if (filters?.search) {
     query = query.or(`name.ilike.%${filters.search}%,note.ilike.%${filters.search}%`)

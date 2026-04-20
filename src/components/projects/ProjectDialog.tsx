@@ -54,8 +54,12 @@ export function ProjectDialog({ open, onOpenChange, project, onSave, entityName 
   }, [project, reset])
 
   const onSubmit = async (data: FormData) => {
-    await onSave(data)
-    onOpenChange(false)
+    try {
+      await onSave(data)
+      onOpenChange(false)
+    } catch {
+      // 儲存失敗時保持 dialog 開啟讓用戶重試，錯誤訊息已由 onSave 處理
+    }
   }
 
   return (
@@ -73,28 +77,28 @@ export function ProjectDialog({ open, onOpenChange, project, onSave, entityName 
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="text-xs text-muted-foreground mb-1 block">合作類型</label>
-              <Select value={watch('type') ?? ''} onValueChange={v => setValue('type', v)}>
+              <Select value={watch('type') ?? ''} onValueChange={v => setValue('type', v ?? undefined)}>
                 <SelectTrigger className="rounded-xl"><SelectValue placeholder="選擇類型" /></SelectTrigger>
                 <SelectContent>{PROJECT_TYPES.map(t => <SelectItem key={t} value={t}>{t}</SelectItem>)}</SelectContent>
               </Select>
             </div>
             <div>
               <label className="text-xs text-muted-foreground mb-1 block">執行狀態</label>
-              <Select value={watch('status') ?? ''} onValueChange={v => setValue('status', v)}>
+              <Select value={watch('status') ?? ''} onValueChange={v => setValue('status', v ?? undefined)}>
                 <SelectTrigger className="rounded-xl"><SelectValue placeholder="選擇狀態" /></SelectTrigger>
                 <SelectContent>{PROJECT_STATUSES.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}</SelectContent>
               </Select>
             </div>
             <div className="col-span-2">
               <label className="text-xs text-muted-foreground mb-1 block">階段</label>
-              <Select value={watch('stage') ?? ''} onValueChange={v => setValue('stage', v)}>
+              <Select value={watch('stage') ?? ''} onValueChange={v => setValue('stage', v ?? undefined)}>
                 <SelectTrigger className="rounded-xl"><SelectValue placeholder="選擇階段" /></SelectTrigger>
                 <SelectContent>{PROJECT_STAGES.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}</SelectContent>
               </Select>
             </div>
             <div>
               <label className="text-xs text-muted-foreground mb-1 block">負責人</label>
-              <Select value={watch('owner') ?? ''} onValueChange={v => setValue('owner', v)}>
+              <Select value={watch('owner') ?? ''} onValueChange={v => setValue('owner', v ?? undefined)}>
                 <SelectTrigger className="rounded-xl"><SelectValue placeholder="選擇負責人" /></SelectTrigger>
                 <SelectContent>{INVITATION_OWNERS.map(o => <SelectItem key={o} value={o}>{o}</SelectItem>)}</SelectContent>
               </Select>

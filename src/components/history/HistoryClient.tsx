@@ -283,7 +283,7 @@ function SelectF({ label, value, onChange, opts }: {
   label: string; value: string; onChange: (v: string) => void; opts: string[]
 }) {
   return (
-    <Select value={value} onValueChange={onChange}>
+    <Select value={value} onValueChange={v => onChange(v ?? '')}>
       <SelectTrigger className="h-8 rounded-xl text-xs w-32"><SelectValue placeholder={label} /></SelectTrigger>
       <SelectContent>
         <SelectItem value={ALL}>{label}：全部</SelectItem>

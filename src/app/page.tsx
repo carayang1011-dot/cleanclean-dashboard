@@ -50,7 +50,7 @@ export default function DashboardPage() {
       if (kolsData?.length) {
         const monthly = Array(6).fill(0)
         let total = 0
-        kolsData.forEach(k => {
+        kolsData.forEach((k: { start_date: string | null; revenue: number | null }) => {
           if (k.start_date && k.revenue) {
             const m = new Date(k.start_date).getMonth()
             if (m >= 0 && m < 6) { monthly[m] += Number(k.revenue); total += Number(k.revenue) }
@@ -75,7 +75,7 @@ export default function DashboardPage() {
         setUpcomingItems(soon)
       }
     } catch (e) {
-      console.error(e)
+      if (process.env.NODE_ENV === 'development') console.error(e)
     } finally {
       setLoading(false)
     }

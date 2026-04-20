@@ -122,7 +122,6 @@ export function InvitationsClient() {
       fetchData()
     } catch {
       toast.error('儲存失敗')
-      throw new Error('save failed')
     }
   }
 

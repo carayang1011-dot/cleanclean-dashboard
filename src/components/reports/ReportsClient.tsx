@@ -204,7 +204,7 @@ export function ReportsClient() {
               </div>
               <div>
                 <label className="text-xs text-muted-foreground mb-1 block">撰寫人</label>
-                <Select value={watch('author') ?? ''} onValueChange={v => setValue('author', v)}>
+                <Select value={watch('author') ?? ''} onValueChange={v => setValue('author', v ?? undefined)}>
                   <SelectTrigger className="rounded-xl"><SelectValue placeholder="選擇撰寫人" /></SelectTrigger>
                   <SelectContent>{OPERATORS.map(o => <SelectItem key={o} value={o}>{o}</SelectItem>)}</SelectContent>
                 </Select>

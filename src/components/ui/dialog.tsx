@@ -67,8 +67,9 @@ function DialogContent({
   className,
   children,
   showCloseButton = true,
+  noPadding = false,
   ...props
-}: React.ComponentProps<"div"> & { showCloseButton?: boolean }) {
+}: React.ComponentProps<"div"> & { showCloseButton?: boolean; noPadding?: boolean }) {
   const { open, onOpenChange } = React.useContext(DialogCtx)
   const [mounted, setMounted] = React.useState(false)
 
@@ -100,20 +101,18 @@ function DialogContent({
           "fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2",
           "w-full max-w-[calc(100%-2rem)] sm:max-w-lg",
           "bg-white rounded-2xl shadow-2xl",
-          "max-h-[90vh] overflow-y-auto",
+          !noPadding && "max-h-[90vh] overflow-y-auto",
           className
         )}
         onClick={e => e.stopPropagation()}
         {...props}
       >
-        <div className="p-6">
-          {children}
-        </div>
+        {noPadding ? children : <div className="p-6">{children}</div>}
         {showCloseButton && (
           <button
             type="button"
             onClick={() => onOpenChange(false)}
-            className="absolute top-4 right-4 rounded-lg p-1 text-muted-foreground hover:text-foreground hover:bg-gray-100 transition-colors"
+            className="absolute top-4 right-4 z-10 rounded-lg p-1 text-muted-foreground hover:text-foreground hover:bg-gray-100 transition-colors"
           >
             <X size={16} />
             <span className="sr-only">Close</span>

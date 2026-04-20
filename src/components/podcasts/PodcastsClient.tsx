@@ -39,7 +39,7 @@ export function PodcastsClient() {
       if (editTarget) { await updatePodcast(editTarget.id, payload); toast.success('已更新') }
       else { await createPodcast(payload); toast.success('已新增') }
       fetchData()
-    } catch { toast.error('儲存失敗'); throw new Error('save failed') }
+    } catch { toast.error('儲存失敗') }
   }
 
   const handleDelete = async () => {

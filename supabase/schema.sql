@@ -154,6 +154,47 @@ create policy "public all" on public.endorsers for all using (true) with check (
 create policy "public all" on public.invitations for all using (true) with check (true);
 create policy "public all" on public.reports for all using (true) with check (true);
 
+-- ========== 5.9 歷史合作名單（KOC 348 筆匯入資料）==========
+create table if not exists public.history (
+  id uuid primary key default gen_random_uuid(),
+  source text,
+  paid text,
+  collab_type text,
+  level text,
+  year int,
+  start_date date,
+  end_date date,
+  creator text,
+  platform text,
+  url text,
+  product text,
+  system text,
+  material text,
+  owner text,
+  status text,
+  discount text,
+  commission_rate numeric(5,4),
+  fee_pretax numeric(12,2),
+  fee_tax numeric(12,2),
+  orders int,
+  revenue numeric(12,2),
+  commission_amount numeric(12,2),
+  aov numeric(10,2),
+  ad_auth text,
+  note text,
+  shipping_info text,
+  transfer_info text,
+  transfer_amount numeric(12,2),
+  payment_date date,
+  tax_receipt text,
+  transfer_note text
+);
+create index if not exists history_start_date_idx on public.history(start_date);
+create index if not exists history_creator_idx on public.history(creator);
+create index if not exists history_owner_idx on public.history(owner);
+alter table public.history enable row level security;
+create policy "public all" on public.history for all using (true) with check (true);
+
 -- ========== 5.10 updated_at trigger ==========
 create or replace function public.touch_updated_at() returns trigger as $$
 begin new.updated_at = now(); return new; end;

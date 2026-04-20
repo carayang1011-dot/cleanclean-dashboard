@@ -77,17 +77,22 @@ export function InvitationDialog({ open, onOpenChange, invitation, defaultOwner,
   }, [invitation, defaultOwner, reset])
 
   const onSubmit = async (data: FormData) => {
-    await onSave(data)
-    onOpenChange(false)
+    try {
+      await onSave(data)
+      onOpenChange(false)
+    } catch {
+      // 儲存失敗時保持 dialog 開啟讓用戶重試，錯誤訊息已由 onSave 處理
+    }
   }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl rounded-2xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
+      <DialogContent noPadding className="max-w-2xl rounded-2xl max-h-[90vh] flex flex-col overflow-hidden">
+        <DialogHeader className="px-6 pt-6 pb-3 shrink-0 border-b">
           <DialogTitle>{invitation ? '編輯邀約' : '新增邀約'}</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col flex-1 min-h-0">
+          <div className="flex-1 overflow-y-auto px-6 pt-4 pb-2 space-y-4">
           <div className="grid grid-cols-2 gap-3">
             {/* 負責人 */}
             <div>
@@ -211,7 +216,8 @@ export function InvitationDialog({ open, onOpenChange, invitation, defaultOwner,
             />
           </div>
 
-          <DialogFooter>
+          </div>
+          <DialogFooter className="shrink-0 px-6 py-4 border-t bg-white">
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)} className="rounded-xl">取消</Button>
             <Button type="submit" disabled={isSubmitting} className="rounded-xl bg-brand hover:bg-brand-dark">
               {isSubmitting ? '儲存中…' : '儲存'}
